@@ -1,0 +1,11 @@
+{
+    "apartment-polanka":
+    {
+        "apartment_key": "apartment-polanka",
+        "year": 2024,
+        "month": 1,
+        "total_bills": 500,
+        "total_rent": 2000,
+        "remaining_amount": 4000
+    }
+} 
