@@ -143,22 +143,22 @@ if __name__ == '__main__':
     manager = Manager(parameters)
 
     for apartment in manager.apartments.values():
-        print(apartment.key, apartment.name, apartment.location, apartment.area_m2)
+        print(f"key: {apartment.key}, name: {apartment.name}, location: {apartment.location}, area: {apartment.area_m2}")
         for room in apartment.rooms.values():
-            print('  ', room.name, room.area_m2)
+            print('  ', f"name: {room.name}, area: {room.area_m2}")
         
         for bill in manager.bills:
             if bill.apartment == apartment.key:
-                print('  ', bill.amount_pln, bill.date_due, bill.settlement_year, bill.settlement_month, bill.type)
+                print('  ', f"amount: {bill.amount_pln}, due: {bill.date_due}, settlement date: {bill.settlement_year}-{bill.settlement_month}, type: {bill.type}")
 
     for tenant in manager.tenants.values():
         print(tenant.name, tenant.apartment, tenant.room, tenant.rent_pln, tenant.deposit_pln, tenant.date_agreement_from, tenant.date_agreement_to)
         for transfer in manager.transfers:
             if transfer.tenant == tenant.name:
-                print('  ', transfer.amount_pln, transfer.date, transfer.settlement_year, transfer.settlement_month)
-
-    for settlement in manager.tenant_settlements.values():
-        print(settlement.tenant_name, settlement.apartment_key, settlement.timeslot_date, settlement.apartment_settlement_id)
+                print('  ', f"amount: {transfer.amount_pln}, date: {transfer.date}, settlement date: {transfer.settlement_year}-{transfer.settlement_month}")
 
     for settlement in manager.apartment_settlements.values():
-        print(settlement.apartment_key, settlement.year, settlement.month, settlement.total_bills, settlement.total_rent, settlement.remaining_amount)
+        print(f"apartment: {settlement.apartment_key}, date: {settlement.year}-{settlement.month}, total bills: {settlement.total_bills}, total rent: {settlement.total_rent}, remaining: {settlement.remaining_amount}")
+
+    for settlement in manager.tenant_settlements.values():
+        print(f"tenant: {settlement.tenant_name}, apartment: {settlement.apartment_key}, timeslot: {settlement.timeslot_date}, settlement_id: {settlement.apartment_settlement_id}")
