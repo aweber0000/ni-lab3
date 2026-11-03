@@ -9,7 +9,7 @@ class Parameters(BaseModel):
     tenants_json_path: str = 'data/tenants.json'
     transfers_json_path: str = 'data/transfers.json'
     bills_json_path: str = 'data/bills.json'
-
+    apartment_settlements_json_path: str = 'data/apartment_settlements.json'
 
 class Room(BaseModel):
     name: str
@@ -82,6 +82,22 @@ class Bill(BaseModel):
         assert isinstance(data, list), "Expected a list of bills"
         return [Bill(**bill) for bill in data]
 
+class ApartmentSettlement(BaseModel):
+    apartment_key: str
+    year: int
+    month: int
+    total_bills: float
+    total_rent: float
+    remaining_amount: float
+
+    @staticmethod
+    def from_json_file(file_path: str) -> Dict[str,'ApartmentSettlement']:
+        data = None
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+        assert isinstance(data, dict), "Expected a dictionary of settlements"
+        return {key: ApartmentSettlement(**settlement) for key, settlement in data.items()}
+
 
 class Manager:
     def __init__(self, parameters: Parameters):
@@ -91,6 +107,7 @@ class Manager:
         self.tenants = {}
         self.transfers = []
         self.bills = []
+        self.apartment_settlements = {}
        
         self.load_data()
 
@@ -99,7 +116,7 @@ class Manager:
         self.tenants = Tenant.from_json_file(self.parameters.tenants_json_path)
         self.transfers = Transfer.from_json_file(self.parameters.transfers_json_path)
         self.bills = Bill.from_json_file(self.parameters.bills_json_path)
-
+        self.apartment_settlements = ApartmentSettlement.from_json_file(self.parameters.apartment_settlements_json_path)
 
 if __name__ == '__main__':
     parameters = Parameters()
