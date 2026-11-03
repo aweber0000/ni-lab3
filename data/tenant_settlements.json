@@ -1,0 +1,8 @@
+{
+    "ts-01": {
+        "tenant_name": "tenant-1",
+        "apartment_key": "apart-polanka",
+        "timeslot_date": "2024-02",
+        "apartment_settlement_id": "as-01"
+    }
+}
