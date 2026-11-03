@@ -11,6 +11,7 @@ class Parameters(BaseModel):
     bills_json_path: str = 'data/bills.json'
     apartment_settlements_json_path: str = 'data/apartment_settlements.json'
 
+
 class Room(BaseModel):
     name: str
     area_m2: float
