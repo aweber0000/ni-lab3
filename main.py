@@ -159,3 +159,6 @@ if __name__ == '__main__':
 
     for settlement in manager.tenant_settlements.values():
         print(settlement.tenant_name, settlement.apartment_key, settlement.timeslot_date, settlement.apartment_settlement_id)
+
+    for settlement in manager.apartment_settlements.values():
+        print(settlement.apartment_key, settlement.year, settlement.month, settlement.total_bills, settlement.total_rent, settlement.remaining_amount)
