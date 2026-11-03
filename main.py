@@ -10,6 +10,7 @@ class Parameters(BaseModel):
     transfers_json_path: str = 'data/transfers.json'
     bills_json_path: str = 'data/bills.json'
     apartment_settlements_json_path: str = 'data/apartment_settlements.json'
+    tennant_settlements_json_path: str = 'data/bills.json'
 
 
 class Room(BaseModel):
@@ -100,6 +101,21 @@ class ApartmentSettlement(BaseModel):
         return {key: ApartmentSettlement(**settlement) for key, settlement in data.items()}
 
 
+class TenantSettlement(BaseModel):
+    tenant_name: str
+    apartment_key: str
+    timeslot_date: str
+    apartment_settlement_id: str
+
+    @staticmethod
+    def from_json_file(file_path: str) -> Dict[str,'TenantSettlement']:
+        data = None
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+        assert isinstance(data, dict), "Expected a dictionary of tenant settlements"
+        return {key: TenantSettlement(**settlement) for key, settlement in data.items()}
+
+
 class Manager:
     def __init__(self, parameters: Parameters):
         self.parameters = parameters 
@@ -109,6 +125,7 @@ class Manager:
         self.transfers = []
         self.bills = []
         self.apartment_settlements = {}
+        self.tenant_settlements = {}
        
         self.load_data()
 
@@ -118,6 +135,8 @@ class Manager:
         self.transfers = Transfer.from_json_file(self.parameters.transfers_json_path)
         self.bills = Bill.from_json_file(self.parameters.bills_json_path)
         self.apartment_settlements = ApartmentSettlement.from_json_file(self.parameters.apartment_settlements_json_path)
+        self.tenant_settlements = TennantSettlement.from_json_file(self.parameters.tennant_settlements_json_path)
+
 
 if __name__ == '__main__':
     parameters = Parameters()
@@ -137,3 +156,6 @@ if __name__ == '__main__':
         for transfer in manager.transfers:
             if transfer.tenant == tenant.name:
                 print('  ', transfer.amount_pln, transfer.date, transfer.settlement_year, transfer.settlement_month)
+
+    for settlement in manager.tenant_settlements.values():
+        print(settlement.tenant_name, settlement.apartment_key, settlement.timeslot_date, settlement.apartment_settlement_id)
