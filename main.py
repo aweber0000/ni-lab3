@@ -157,5 +157,8 @@ if __name__ == '__main__':
             if transfer.tenant == tenant.name:
                 print('  ', f"amount: {transfer.amount_pln}, date: {transfer.date}, settlement date: {transfer.settlement_year}-{transfer.settlement_month}")
 
+    for settlement in manager.apartment_settlements.values():
+        print(f"apartment: {settlement.apartment_key}, date: {settlement.year}-{settlement.month}, total bills: {settlement.total_bills}, total rent: {settlement.total_rent}, remaining: {settlement.remaining_amount}")
+
     for settlement in manager.tenant_settlements.values():
         print(f"tenant: {settlement.tenant_name}, apartment: {settlement.apartment_key}, timeslot: {settlement.timeslot_date}, settlement_id: {settlement.apartment_settlement_id}")
